@@ -1,0 +1,264 @@
+@font-face{
+    font-family: 'Arial Greek';
+    src: url(/static/css/Arial_Greek_Regular.ttf);
+}
+
+/* Color principal para botones y cuadros con mensajes */
+.bg-red-usat{
+    background-color: #E33439;
+    color: white;
+}
+
+/* Color para fondo de pantalla */
+.bg-grey-usat{
+    background-color: #E8EBF1;
+}
+
+.bg-blue-horario-usat{
+    background-color: #E33439;
+}
+
+.text-red-usat{
+    color: #E33439
+}
+.table-responsive {
+    overflow-x: hidden;
+}
+
+.card-footer {
+    text-align: center;
+}
+
+.card-footer {
+    text-align: center;
+}
+
+.tabla-cursos  {
+    table-layout: auto;
+    width: 100%;
+}
+
+.tabla-comun th,
+.tabla-comun td {
+    min-width: 100px; /* Ajusta según sea necesario */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    vertical-align: middle;
+    padding: 0.5rem;
+    border: 1px solid #dee2e6;
+}
+
+.tabla-comun th {
+    position: sticky;
+    top: 0;
+    background-color: #f8f9fa;
+    z-index: 1;
+}
+
+
+[data-image]{
+    margin-right: 10px;
+    filter: invert(100%) sepia(0%) saturate(0%) hue-rotate(43deg) brightness(105%) contrast(101%);
+    width: 20px;
+    height: 20px;
+}
+
+@media (max-width: 767.98px) {
+    .tabla-cursos th, .tabla-cursos td {
+        white-space: normal;
+        overflow: visible;
+        text-overflow: clip;
+    }
+}
+
+@media (max-width: 767.98px) {
+    .tabla-ambientes th, .tabla-ambientes  td {
+        white-space: normal;
+        overflow: visible;
+        text-overflow: clip;
+    }
+}
+
+@media (max-width: 767.98px) {
+    .tabla-docentes th, .tabla-docentes  td {
+        white-space: normal;
+        overflow: visible;
+        text-overflow: clip;
+    }
+}
+
+.dt-search{
+    margin-bottom: 20px;
+    justify-content: flex-end;
+}
+
+@media (min-width: 1920px) {
+    .tabla-cursos .tabla-ambientes .tabla-docentes{
+        width: 100%; /* Asegura que la tabla ocupe todo el ancho disponible */
+        margin: 0 auto;
+    }
+    #semestre {
+        width: 25%;
+    }
+    
+    #escuela {
+        width: 75%;
+    }
+    
+    #card_cursos ::-webkit-scrollbar {
+        display: none;
+    }
+    
+    #contenedor-botones {
+        position: sticky;
+        display: flex;
+        align-items: center;
+        justify-content: end;
+    }
+    
+    #contenedor-botones button {
+        width: min(100%, 11rem);
+        height: 3rem;
+        margin-inline: 5px;
+    }
+    
+    #miTabla {
+        overflow-x: scroll;
+    }
+    
+    @media (max-width: 763px) {
+        #contenedor-botones {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+    
+        #contenedor-botones button {
+            width: 100%;
+        }
+    }
+}
+.dataTables_wrapper .top-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+.dataTables_wrapper .dataTables_filter {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.dataTables_wrapper .dt-buttons {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+    margin-right: 10px; 
+}
+.dt-button.buttons-collection {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding: 8px 12px;
+    border-radius: 4px;
+    background-color: #6c757d;
+    color: white;
+    border: none;
+}
+.dt-button-collection {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    margin-top: 5px;
+    z-index: 1000;
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    min-width: 150px;
+}
+.dt-button-collection .dropdown-item,
+.dt-button-collection button.dt-button {
+    color: #333;
+    padding: 8px 12px;
+    white-space: nowrap;
+    background: none;
+    border: none;
+    width: 100%;
+    text-align: left;
+}
+.dt-button-collection .dropdown-item:hover,
+.dt-button-collection button.dt-button:hover {
+    background-color: #f1f1f1;
+    color: #000;
+}
+.btnAgregar {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding: 8px 12px;
+    border-radius: 4px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+}
+.dataTables_filter input[type="search"] {
+    background-color: white;
+    color: black;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 6px 12px;
+    outline: none;
+    margin-left: 10px;
+}
+.dataTables_wrapper .dataTables_info,
+.dataTables_wrapper .dataTables_paginate {
+    display: inline-flex;
+    align-items: center;
+    padding: 5px 0;
+    padding-top: 10px;
+}
+.dataTables_wrapper .row:last-child {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.dataTables_wrapper .dataTables_paginate .paginate_button {
+    color: #333333;
+    border: 1px solid #dee2e6;
+    padding: 6px 12px;
+    margin: 0 2px;
+    border-radius: 4px;
+    background-color: #f8f9fa;
+    transition: background-color 0.2s;
+    text-decoration: none;
+}
+.dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+    background-color: #e0e0e0;
+    color: #000000;
+}
+.dataTables_wrapper .dataTables_paginate .paginate_button.current {
+    background-color: #333333;
+    color: #ffffff !important;
+    border: 1px solid #333333;
+}
+.dataTables_wrapper .dataTables_paginate .paginate_button.disabled {
+    color: #6c757d;
+    pointer-events: none;
+    background-color: #f8f9fa;
+    border-color: #dee2e6;
+}
+.dataTables_wrapper .bottom-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+} 
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+color: #6c757d;
+opacity: 1;
+filter: brightness(0.5);
+}
+  

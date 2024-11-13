@@ -1,14 +1,13 @@
 from flask import Flask
-
+from routers.router_main import router_main
 
 app = Flask(__name__)
+app.debug = False
+app.secret_key = 'super-secret'
+
+app.register_blueprint(router_main)
 
 
-
-
-@app.route('/')
-def home():
-    return 'Servicios web en ejecución'
 
 #Iniciar el servicio web con Flask
 if __name__ == '__main__':

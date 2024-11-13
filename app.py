@@ -1,14 +1,10 @@
 from flask import Flask
 
-#Importar a los módulos que contienen a los servicios web
-#from ws.sesion import ws_sesion
 
-#Crear la variable de aplicación con Flask
 app = Flask(__name__)
 
 
-#Registrar los módulos que contienen a los servicios web
-#app.register_blueprint(ws_sesion)
+
 
 @app.route('/')
 def home():

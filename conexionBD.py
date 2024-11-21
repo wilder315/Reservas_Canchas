@@ -1,6 +1,7 @@
 from config import Config
-import MySQLdb as dbc
-import MySQLdb.cursors
+import pymysql as dbc
+import pymysql.cursors
+
 
 class Conexion():
     def __init__(self):

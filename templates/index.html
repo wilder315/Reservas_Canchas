@@ -156,7 +156,7 @@
                         <span id="usernamenav" class="text-white"></span>
                     </a>
                     <div class="dropdown-menu dropdown-menu-end">
-                        <a class="dropdown-item" href="{{ url_for('router_main.perfil') }}">
+                        <a class="dropdown-item" ">
                             <i class="align-middle me-1" data-feather="user"></i> Perfil
                         </a>
                         <div class="dropdown-divider"></div>
@@ -168,14 +168,15 @@
     </nav>
     <section class="main-content">
         <div class="container text-center">
-            <h1 class="index-title">Sistema de Gestión de Prácticas Pre Profesionales - USAT</h1>
+            <h1 class="index-title">Sistema de Gestión de Reserva de Canchas</h1>
             <div class="d-flex flex-wrap justify-content-center">
-                <a href="{{ url_for('router_main.gestion_academica') }}" class="module-button">
-                    Módulo de Gestión Académica
+                <a href="{{ url_for('propietarios.homeP') }}" class="module-button">
+                    PROPIETARIOS
                     <img src="{{ url_for('static', filename='img/gaicono.png') }}" alt="Icono GA">
                 </a>
-                <a href="{{ url_for('router_main.practicas_pre_profesionales') }}" class="module-button">
-                    Módulo de Prácticas Pre Profesionales
+                
+                <a  class="module-button">
+                    ADMINISTRADOR
                     <img src="{{ url_for('static', filename='img/pppicono.png') }}" alt="Icono PPP">
                 </a>
             </div>

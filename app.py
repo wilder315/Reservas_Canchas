@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, render_template, request, redirect, url_for
 from routers.router_main import router_main
 from routers.usuario import ws_usuario
 from routers.sesion import ws_sesion
@@ -7,6 +7,11 @@ from routers.pago import ws_pagos
 app = Flask(__name__)
 app.debug = False
 app.secret_key = 'super-secret'
+
+# Ruta para la página de inicio de sesión
+@app.route('/')
+def raiz():
+    return render_template('index.html')
 
 app.register_blueprint(router_main)
 app.register_blueprint(ws_usuario)

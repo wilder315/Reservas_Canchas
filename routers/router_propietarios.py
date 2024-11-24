@@ -2,6 +2,10 @@ from flask import jsonify, render_template, request, redirect, url_for, flash
 from controladores.controlador_propietarios import *
 import hashlib
 
+from flask import Flask
+app = Flask(__name__)
+
+
 def encriptar_contraseña(contraseña):
     """Encripta una contraseña usando SHA-256."""
     sha_signature = hashlib.sha256(contraseña.encode()).hexdigest()

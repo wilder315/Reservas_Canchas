@@ -1,4 +1,5 @@
 import pymysql
+import os
 
 def obtener_conexion():
     try:
@@ -7,7 +8,8 @@ def obtener_conexion():
             port=41697,
             user='root',
             password='zKvJnyPqfGLmaRiZqvqMRCePODgILIqr',
-            db='ReservasDeCanchas'
+            db='ReservasDeCanchas',
+            cursorclass=pymysql.cursors.DictCursor
         )
         print("Conexión exitosa a la base de datos.")
         return conexion

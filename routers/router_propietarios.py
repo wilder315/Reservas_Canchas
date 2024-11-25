@@ -33,3 +33,44 @@ def registrar_propietario():
     except Exception as e:
         print(f"Error al registrar el propietario: {str(e)}")
         return jsonify(success=False, message="Error en la transaccion registrar propietario: " + str(e)), 500
+
+# INICIO SESION
+@app.route("/login_propietario", methods=["POST"])
+def login():
+    try:
+        #Capturar los datos del formulario
+        correo = request.form.get("correo")
+        contraseña = request.form.get("contraseña")
+
+        if not correo:
+            return jsonify(success=False, message="Ingrese un correo"), 400
+        
+        if not contraseña:
+            return jsonify(success=False, message="Ingrese una contraseña "), 400
+        
+        # Obtener id del propietario
+        id_propietario = obtener_id_propietario(correo, contraseña)
+        if not id_propietario:
+            return jsonify(success=False, message="Credenciales incorrectas"), 401
+        
+        # obtener el estado propietario
+        estado_usuario = validar_estado_usuario_propietario(id_propietario)
+
+        # Validar el estado del propietario
+        if estado_usuario == 0:
+            return jsonify(success=False, message="Su usuario esta inactivado. Contacte al administrador!"), 400
+        
+        propietario = login_propietario(correo, contraseña)
+        if not propietario:
+            return jsonify(success=False, message="Credenciales incorrectas"), 401
+
+        # Extraer nombre y apellido
+        nombre = propietario['nombre']
+        apellidos = propietario['apellido']
+
+        return jsonify(success=True, message=f"Bienvenido al sistema {nombre} {apellidos}"), 200
+
+
+    except Exception as e:
+        print(f"Error al iniciar sesion: {str(e)}")
+        return jsonify(success=False, message="Error al realizar la transaccion " + str(e)), 500

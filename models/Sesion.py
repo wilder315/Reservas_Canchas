@@ -2,9 +2,9 @@ from conexionBD import Conexion as db
 import json
 
 class Sesion():
-    def __init__(self, email=None, clave=None):
-        self.email = email
-        self.clave = clave
+    def __init__(self, correo=None, contraseña=None):
+        self.correo = correo
+        self.contraseña = contraseña
 
     def iniciarSesion(self):
         #Abrir la conexión a la BD
@@ -19,22 +19,23 @@ class Sesion():
                     SELECT
                         u.id_usuario,
                         u.nombre,
-                        u.apellido.
-                        u.email,
-                        u.estado_usuario,
-                        CONCAT('/static/img/', u.foto_pefil) as foto
+                        u.apellido,
+                        u.correo,
+                        u.estado_usuario
                     FROM
-                        usuario u
+                        Usuarios u
                     WHERE
-                        email = %s
-                        and clave = %s;
+                        correo = %s
+                        and contraseña = %s;
                 """
             
             #Ejecutar la consulta SQL
-            cursor.execute(sql, [self.email, self.clave])
+            cursor.execute(sql, [self.correo, self.contraseña])
 
             #Almancenar el resultado de la consulta SQL ejecutada
             datos = cursor.fetchone()
+
+            print(datos)
 
             #Retonar el resultado
             if datos: #Validar si la consulta sql ha devuelvo registros

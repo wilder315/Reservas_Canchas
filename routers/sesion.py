@@ -12,15 +12,15 @@ ws_sesion = Blueprint('ws_sesion', __name__)
 @ws_sesion.route('/usuario/login', methods=['POST'])
 def login():
     if request.method == 'POST':
-        if {'email', 'clave'} - set(request.form.keys()): #Validar que el usuario envíe los parámetros requeridos
+        if {'correo', 'contraseña'} - set(request.form.keys()): #Validar que el usuario envíe los parámetros requeridos
             return jsonify({'status': False, 'data':None, 'message': 'Faltan parámetros'}), 400 #Bad Request
         
         #Leer los parámetros email y clave
-        email = request.form['email']
-        clave = request.form['clave']
+        correo = request.form['correo']
+        contraseña = request.form['contraseña']
 
         #Instanciar un objeto de la clase Sesion
-        obj = Sesion(email, clave)
+        obj = Sesion(correo, contraseña)
 
         #Ejecutar el método iniciar sesión
         resultadoJSONString = obj.iniciarSesion()
@@ -31,7 +31,7 @@ def login():
         #Validar los datos del resultado enviado por el método iniciar sesión
         if resultadoJSONObject['status'] == True:
             #Almacenar el ID del usuario en una variable para enviarlo en el token
-            usuarioID = resultadoJSONObject['data']['id']
+            usuarioID = resultadoJSONObject['data']['id_usuario']
 
             #Generar y otorgar el token al usuario que ha iniciado sesión satisfactoriamente
             token = jwt.encode({'usuarioID': usuarioID, 'exp': datetime.datetime.utcnow() + datetime.timedelta(seconds=60*60)}, SecretKey.JWT_SECRET_KEY)

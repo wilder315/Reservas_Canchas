@@ -39,8 +39,8 @@ class Sesion():
 
             #Retonar el resultado
             if datos: #Validar si la consulta sql ha devuelvo registros
-                if datos['estado_usuario'] == '1': #1:Activo; 0:Inactivo
-                    return json.dumps({'status': True, 'data': datos, 'message': 'Inicio de sesión satisfactorio. Bienvenido a la aplicación'})
+                if datos['estado_usuario'] == 1: #1:Activo; 0:Inactivo
+                    return json.dumps({'status': True, 'data': datos, 'message': 'Inicio de sesion satisfactorio. Bienvenido a la aplicación'})
                 else: #El usuario se encuentra inactivo
                     return json.dumps({'status': False, 'data': None, 'message': 'Cuenta inactiva. Consulte al administrador'})
             else: #No hay datos

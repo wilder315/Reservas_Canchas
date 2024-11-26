@@ -8,11 +8,12 @@ ws_usuario = Blueprint('ws_usuario', __name__)
 
 # Crear un endpoint para registrar usuarios
 @ws_usuario.route('/usuario/registrar', methods=['POST'])
-@vt.validar
+# @vt.validar
 def registrar_usuario():
     if request.method == 'POST':
         # Validar los parámetros de entrada
-        campos_requeridos = {'nombre', 'apellido', 'correo', 'contraseña', 'tipo_usuario'}
+        # campos_requeridos = {'nombre', 'apellido', 'correo', 'contraseña', 'tipo_usuario'}
+        campos_requeridos = {'nombre', 'apellido', 'correo', 'contraseña'}
         if campos_requeridos - set(request.form.keys()):
             return jsonify({'status': False, 'data': None, 'message': 'Faltan parámetros'}), 400  # Bad Request
 
@@ -21,10 +22,10 @@ def registrar_usuario():
         apellido = request.form['apellido']
         correo = request.form['correo']
         contraseña = request.form['contraseña']
-        tipo_usuario = request.form['tipo_usuario']
-        ubicacion_latitud = request.form.get('ubicacion_latitud')  # Opcional
-        ubicacion_longitud = request.form.get('ubicacion_longitud')  # Opcional
-        foto_perfil = request.form.get('foto_perfil')  # Opcional
+        # tipo_usuario = request.form['tipo_usuario']
+        # ubicacion_latitud = request.form.get('ubicacion_latitud')  # Opcional
+        # ubicacion_longitud = request.form.get('ubicacion_longitud')  # Opcional
+        # foto_perfil = request.form.get('foto_perfil')  # Opcional
 
         # Instanciar un objeto de la clase Usuario
         obj = Usuario(
@@ -32,10 +33,10 @@ def registrar_usuario():
             apellido=apellido,
             correo=correo,
             contraseña=contraseña,
-            tipo_usuario=tipo_usuario,
-            ubicacion_latitud=ubicacion_latitud,
-            ubicacion_longitud=ubicacion_longitud,
-            foto_perfil=foto_perfil
+            # tipo_usuario=tipo_usuario,
+            # ubicacion_latitud=ubicacion_latitud,
+            # ubicacion_longitud=ubicacion_longitud,
+            # foto_perfil=foto_perfil
         )
 
         # Ejecutar el método registrar

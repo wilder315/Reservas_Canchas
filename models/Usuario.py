@@ -25,8 +25,8 @@ class Usuario():
 
         # Preparar la sentencia para insertar un nuevo usuario
         sql = """
-            INSERT INTO Usuarios (nombre, apellido, correo, contraseña, tipo_usuario, ubicacion_latitud, ubicacion_longitud, foto_perfil)
-            VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
+            INSERT INTO Usuarios (nombre, apellido, correo, contraseña, tipo_usuario, ubicacion_latitud, ubicacion_longitud, foto_perfil, estado_usuario)
+            VALUES (%s, %s, %s, %s, 'usuario', null, null, %s, 1)
         """
 
         try:
@@ -37,7 +37,8 @@ class Usuario():
             contraseña_cifrada = base64.b64encode(self.contraseña.encode()).decode()
 
             # Ejecutar la sentencia para agregar un nuevo usuario
-            cursor.execute(sql, [self.nombre, self.apellido, self.correo, contraseña_cifrada, self.tipo_usuario, self.ubicacion_latitud, self.ubicacion_longitud, None])
+            # cursor.execute(sql, [self.nombre, self.apellido, self.correo, contraseña_cifrada, self.tipo_usuario, self.ubicacion_latitud, self.ubicacion_longitud, None])
+            cursor.execute(sql, [self.nombre, self.apellido, self.correo, contraseña_cifrada, None])
 
             # Obtener el ID del usuario registrado
             self.id = con.insert_id()

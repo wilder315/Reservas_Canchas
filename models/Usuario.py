@@ -76,3 +76,40 @@ class Usuario():
 
         with open(ruta_foto, 'wb') as archivo:
             archivo.write(foto_bytes)
+
+    def registrarUsuarioMovil(nombre, apellido, correo, contraseña, ubicacion_latitud, ubicacion_longitud, tipo_usuario, fecha_registro, estado_usuario):
+        # Abrir conexión a la base de datos
+        con = db().open
+
+        # Crear un cursor para ejecutar la consulta SQL
+        cursor = con.cursor()
+
+        # Preparar la sentencia SQL para insertar un nuevo usuario
+        sql = """
+            INSERT INTO Usuarios (nombre, apellido, correo, contraseña, ubicacion_latitud, ubicacion_longitud, tipo_usuario, fecha_registro, estado_usuario)
+            VALUES (%s, %s, %s, %s, %s, %s, 'usuario', CURRENT_TIMESTAMP, 1)
+        """
+        
+        try:
+            # Configurar la transacción
+            con.autocommit = False  # Indicar que la transacción se confirmará manualmente
+
+            # Ejecutar la consulta SQL
+            cursor.execute(sql, [nombre, apellido, correo, contraseña, ubicacion_latitud, ubicacion_longitud, tipo_usuario, fecha_registro, estado_usuario])
+
+            # Confirmar la transacción
+            con.commit()
+
+            # Devolver un mensaje de éxito
+            return json.dumps({'status': True, 'data': None, 'message': 'Usuario registrado exitosamente'})
+        except con.Error as error:
+            # Revocar la transacción en caso de error
+            con.rollback()
+
+            # Devolver un mensaje de error
+            return json.dumps({'status': False, 'data': None, 'message': str(error)})
+        finally:
+            # Cerrar el cursor y la conexión
+            cursor.close()
+            con.close()
+

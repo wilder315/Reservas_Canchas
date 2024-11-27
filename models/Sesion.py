@@ -62,7 +62,7 @@ class Sesion():
         cursor = con.cursor()
 
         #Preparar una sentencia que permita actualizar el token del usuario en la BD
-        sql = "update usuario set token=%s, estado_token='1' where id_usuario = %s"
+        sql = "update Usuarios set token=%s, estado_token='1' where id_usuario = %s"
         
         #Iniciar con la actualización del token
         try:
@@ -102,7 +102,7 @@ class Sesion():
         cursor = con.cursor()
 
         #Preparar la consulta SQL para validar las credenciales
-        sql = "select estado_token from usuario where id_usuario=%s"
+        sql = "select estado_token from Usuarios where id_usuario=%s"
         
         #Ejecutar la consulta SQL
         cursor.execute(sql, [usuarioID])
@@ -127,7 +127,7 @@ class Sesion():
             cursor = con.cursor()
 
             #Preparar una sentencia que permita actualizar el token del usuario en la BD
-            sql = "update usuario set firebase_token=%s where id_usuario = %s"
+            sql = "update Usuarios set firebase_token=%s where id_usuario = %s"
             
             #Iniciar con la actualización del token
             try:

@@ -31,18 +31,18 @@ def login():
         #Validar los datos del resultado enviado por el método iniciar sesión
         if resultadoJSONObject['status'] == True:
             #Almacenar el ID del usuario en una variable para enviarlo en el token
-            usuarioID = resultadoJSONObject['data']['id_usuario']
+            id_usuario = resultadoJSONObject['data']['id_usuario']
 
             #Generar y otorgar el token al usuario que ha iniciado sesión satisfactoriamente
-            # token = jwt.encode({'usuarioID': usuarioID, 'exp': datetime.datetime.utcnow() + datetime.timedelta(seconds=60*60)}, SecretKey.JWT_SECRET_KEY)
+            token = jwt.encode({'id_usuario': id_usuario, 'exp': datetime.datetime.utcnow() + datetime.timedelta(seconds=60*60)}, SecretKey.JWT_SECRET_KEY)
 
             #Incorporar el token en los datos de la sesión del usuario
-            #resultadoJSONObject['data']['token'] = token
+            resultadoJSONObject['data']['token'] = token
 
             #Actualizar el token del usuario en la BD
-            #resultadoActualizarTokenJSONObject = json.loads(obj.actualizarToken(token, usuarioID))
-            # if resultadoActualizarTokenJSONObject['status'] == False: #Ocurrió un error al actualizar el token
-            #     return jsonify(resultadoActualizarTokenJSONObject), 500 #Internal Server Error
+            resultadoActualizarTokenJSONObject = json.loads(obj.actualizarToken(token, id_usuario))
+            if resultadoActualizarTokenJSONObject['status'] == False: #Ocurrió un error al actualizar el token
+                 return jsonify(resultadoActualizarTokenJSONObject), 500 #Internal Server Error
 
             #Imprimir la respuesta del servicio web
             return jsonify(resultadoJSONObject), 200 #ok

@@ -17,10 +17,10 @@ import pymysql
 class Config:
     """Configuración general de la aplicación."""
     # Configuración de la base de datos
-    DB_HOST = 'localhost'  # Dirección del servidor de la base de datos
-    DB_PORT = 3306                    # Puerto del servidor de la base de datos
+    DB_HOST = 'junction.proxy.rlwy.net'  # Dirección del servidor de la base de datos
+    DB_PORT = 41697                    # Puerto del servidor de la base de datos
     DB_USER = 'root'                    # Usuario de la base de datos
-    DB_PASSWORD = 'Mendoza110427'  # Contraseña de la base de datos
+    DB_PASSWORD = 'zKvJnyPqfGLmaRiZqvqMRCePODgILIqr'  # Contraseña de la base de datos
     DB_NAME = 'ReservasDeCanchas'       # Nombre de la base de datos
 
 class SecretKey():

@@ -55,3 +55,4 @@ def historial_reservas(id_usuario):
     reserva = Reserva()
     resultado = reserva.historial(id_usuario=id_usuario)
     return jsonify(json.loads(resultado))
+

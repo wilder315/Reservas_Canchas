@@ -10,13 +10,11 @@ class MD5Hash():
 
 
 
-#Clase CustomJsonEncoder
 import json
 from decimal import Decimal
 import datetime
 
 class CustomJsonEncoder(json.JSONEncoder):
-
     def default(self, obj):
         # Serializar objetos Decimal como float
         if isinstance(obj, Decimal):

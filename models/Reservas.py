@@ -1,5 +1,6 @@
 from conexionBD import Conexion as db
 import json
+from util import CustomJsonEncoder
 
 class Reserva:
     def __init__(self, id=None, id_usuario=None, id_cancha=None, fecha_reserva=None, hora_inicio=None, hora_fin=None, estado='pendiente'):
@@ -59,17 +60,26 @@ class Reserva:
         cursor = con.cursor()
         try:
             sql = """
-                SELECT r.id, r.fecha_reserva, r.hora_inicio, r.hora_fin, c.nombre AS cancha, r.estado
+                SELECT r.id_reserva, r.fecha_reserva, r.hora_inicio, r.hora_fin, c.tipo_cancha, r.estado
                 FROM Reservas r
-                INNER JOIN Canchas c ON r.id_cancha = c.id
+                INNER JOIN DetalleReservas dr ON r.id_reserva = dr.id_reserva
+                INNER JOIN Canchas c ON dr.id_cancha = c.id_cancha
                 WHERE r.id_usuario = %s
                 ORDER BY r.fecha_reserva DESC
             """
             cursor.execute(sql, [id_usuario])
             reservas = cursor.fetchall()
-            return json.dumps({'status': True, 'data': reservas, 'message': 'Historial de reservas obtenido'})
+
+            # Verificamos que haya resultados
+            if reservas:
+                # Usamos CustomJsonEncoder para serializar correctamente los tipos de datos TIME y DATE
+                return json.dumps({'status': True, 'data': reservas, 'message': 'Historial obtenido'}, cls=CustomJsonEncoder)
+            else:
+                return json.dumps({'status': False, 'message': 'El usuario no ha registrado ninguna reserva'})
+
         except Exception as e:
-            return json.dumps({'status': False, 'message': str(e)})
+            return json.dumps({'status': False, 'message': f'Error: {str(e)}'})
         finally:
             cursor.close()
             con.close()
+

@@ -6,6 +6,7 @@ from routers.pago import ws_pagos
 from routers.propietarios import propietarios
 from routers.establecimientos import establecimientos
 from routers.canchas import canchas
+from routers.reservas import ws_reservas
 
 app = Flask(__name__)
 app.debug = False
@@ -20,6 +21,7 @@ app.register_blueprint(router_main)
 app.register_blueprint(ws_usuario)
 app.register_blueprint(ws_sesion)
 app.register_blueprint(ws_pagos)
+app.register_blueprint(ws_reservas)
 
 
 # Registrar Blueprints

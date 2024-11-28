@@ -38,22 +38,33 @@ class Reserva:
             con.close()
 
     def registrar(self):
-        con = db().open
-        cursor = con.cursor()
         try:
-            sql = """
-                INSERT INTO Reservas (id_usuario, id_cancha, fecha_reserva, hora_inicio, hora_fin, estado)
-                VALUES (%s, %s, %s, %s, %s, 'pendiente')
-            """
-            cursor.execute(sql, [self.id_usuario, self.id_cancha, self.fecha_reserva, self.hora_inicio, self.hora_fin])
-            con.commit()
-            return json.dumps({'status': True, 'message': 'Reserva registrada correctamente'})
+            # Abriendo la conexión y cursor con context manager
+            with db().open as con:
+                with con.cursor() as cursor:
+                    # Inserción en la tabla Reservas
+                    sql_reserva = """
+                        INSERT INTO Reservas (id_usuario, fecha_reserva, hora_inicio, hora_fin, estado)
+                        VALUES (%s, %s, %s, %s, 'pendiente')
+                    """
+                    cursor.execute(sql_reserva, [self.id_usuario, self.fecha_reserva, self.hora_inicio, self.hora_fin])
+
+                    # Obtener el id_reserva del último registro insertado
+                    id_reserva = cursor.lastrowid  # LAST_INSERT_ID() funciona automáticamente en MySQL
+
+                    # Inserción en la tabla DetalleReservas
+                    sql_detalle = """
+                        INSERT INTO DetalleReservas (id_reserva, id_cancha)
+                        VALUES (%s, %s)
+                    """
+                    cursor.execute(sql_detalle, [id_reserva, self.id_cancha])  # Ahora insertamos el id_cancha
+
+                    con.commit()
+                    return json.dumps({'status': True, 'message': 'Reserva registrada correctamente'})
         except Exception as e:
-            con.rollback()
             return json.dumps({'status': False, 'message': str(e)})
-        finally:
-            cursor.close()
-            con.close()
+
+
 
     def historial(self, id_usuario):
         con = db().open

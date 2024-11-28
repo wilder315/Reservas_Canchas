@@ -20,20 +20,35 @@ def disponibilidad():
     return jsonify(json.loads(resultado))
 
 # Registrar una reserva
+# Registrar una reserva
 @ws_reservas.route('/reserva/registrar', methods=['POST'])
 def registrar_reserva():
-    if {'id_usuario', 'id_cancha', 'fecha_reserva', 'hora_inicio', 'hora_fin'} - set(request.json.keys()):
+    # Verificamos que los parámetros estén en el form-data
+    if {'id_usuario', 'fecha_reserva', 'hora_inicio', 'hora_fin', 'id_cancha'} - set(request.form.keys()):
         return jsonify({'status': False, 'message': 'Faltan parámetros'}), 400
 
+    # Obtener los valores del form-data
+    id_usuario = request.form['id_usuario']
+    fecha_reserva = request.form['fecha_reserva']
+    hora_inicio = request.form['hora_inicio']
+    hora_fin = request.form['hora_fin']
+    id_cancha = request.form['id_cancha']  # Ahora también se toma el id_cancha
+
+    # Crear la reserva
     reserva = Reserva(
-        id_usuario=request.json['id_usuario'],
-        id_cancha=request.json['id_cancha'],
-        fecha_reserva=request.json['fecha_reserva'],
-        hora_inicio=request.json['hora_inicio'],
-        hora_fin=request.json['hora_fin']
+        id_usuario=id_usuario,
+        fecha_reserva=fecha_reserva,
+        hora_inicio=hora_inicio,
+        hora_fin=hora_fin,
+        id_cancha=id_cancha  # Asegúrate de pasar el id_cancha al crear la instancia
     )
+
+    # Llamar al método para registrar la reserva
     resultado = reserva.registrar()
+
+    # Retornar la respuesta
     return jsonify(json.loads(resultado))
+
 
 # Registrar un pago
 @ws_reservas.route('/pago/registrar', methods=['POST'])

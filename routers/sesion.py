@@ -53,18 +53,18 @@ def login():
 @ws_sesion.route('/usuario/firebaseToken/actualizar', methods=['POST'])
 def actualizarFirebaseToken():
     if request.method == 'POST':
-        if {'usuario_id', 'firebase_token'} - set(request.form.keys()): #Validar que el usuario envíe los parámetros requeridos
+        if {'id_usuario', 'firebase_token'} - set(request.form.keys()): #Validar que el usuario envíe los parámetros requeridos
             return jsonify({'status': False, 'data':None, 'message': 'Faltan parámetros'}), 400 #Bad Request
         
         #Leer los parámetros email y clave
-        usuario_id = request.form['usuario_id']
+        id_usuario = request.form['id_usuario']
         firebase_token = request.form['firebase_token']
 
         #Instanciar un objeto de la clase Sesion
-        obj = Sesion(usuario_id, firebase_token)
+        obj = Sesion(id_usuario, firebase_token)
 
         #Ejecutar el método iniciar sesión
-        resultadoJSONString = obj.actualizarFirebaseToken(firebase_token, usuario_id)
+        resultadoJSONString = obj.actualizarFirebaseToken(firebase_token, id_usuario)
 
         #Convertir el JSON string en JSON Object
         resultadoJSONObject = json.loads(resultadoJSONString)

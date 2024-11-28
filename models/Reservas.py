@@ -16,14 +16,16 @@ class Reserva:
         cursor = con.cursor()
         try:
             sql = """
-                SELECT id, nombre, estado
-                FROM Canchas
-                WHERE id NOT IN (
-                    SELECT id_cancha
-                    FROM Reservas
-                    WHERE fecha_reserva = %s
-                      AND (hora_inicio < %s AND hora_fin > %s)
-                ) AND estado = 'disponible'
+                SELECT c.id_cancha, e.nombre, c.estado
+                FROM Canchas c
+                INNER JOIN Establecimientos e
+                ON  c.id_establecimiento = e.id_establecimiento
+                WHERE c.id_cancha NOT IN (
+                    SELECT c.id_cancha
+                    FROM Reservas r
+                    WHERE r.fecha_reserva = %s
+                    AND (r.hora_inicio < %s AND r.hora_fin > %s)
+                ) AND c.estado = 'disponible'
             """
             cursor.execute(sql, [fecha_reserva, hora_fin, hora_inicio])
             canchas = cursor.fetchall()

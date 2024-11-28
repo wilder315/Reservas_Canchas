@@ -5,21 +5,28 @@ import json
 
 ws_reservas = Blueprint('ws_reservas', __name__)
 
-# Disponibilidad de canchas
 @ws_reservas.route('/reserva/disponibilidad', methods=['POST'])
 def disponibilidad():
-    if {'fecha_reserva', 'hora_inicio', 'hora_fin'} - set(request.json.keys()):
+    # Verificar si las claves necesarias están en el form-data
+    if not all(k in request.form for k in ('fecha_reserva', 'hora_inicio', 'hora_fin')):
         return jsonify({'status': False, 'message': 'Faltan parámetros'}), 400
 
+    # Obtener los valores del form-data
+    fecha_reserva = request.form['fecha_reserva']
+    hora_inicio = request.form['hora_inicio']
+    hora_fin = request.form['hora_fin']
+
+    # Crear una instancia de la clase Reserva y llamar a la función de disponibilidad
     reserva = Reserva()
     resultado = reserva.disponibilidad(
-        fecha_reserva=request.json['fecha_reserva'],
-        hora_inicio=request.json['hora_inicio'],
-        hora_fin=request.json['hora_fin']
+        fecha_reserva=fecha_reserva,
+        hora_inicio=hora_inicio,
+        hora_fin=hora_fin
     )
+    
+    # Retornar el resultado
     return jsonify(json.loads(resultado))
 
-# Registrar una reserva
 # Registrar una reserva
 @ws_reservas.route('/reserva/registrar', methods=['POST'])
 def registrar_reserva():

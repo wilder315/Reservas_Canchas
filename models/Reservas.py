@@ -20,17 +20,29 @@ class Reserva:
                 SELECT c.id_cancha, e.nombre, c.estado
                 FROM Canchas c
                 INNER JOIN Establecimientos e
-                ON  c.id_establecimiento = e.id_establecimiento
-                WHERE c.id_cancha NOT IN (
-                    SELECT c.id_cancha
+                    ON c.id_establecimiento = e.id_establecimiento
+                WHERE c.estado = 'disponible'
+                AND NOT EXISTS (
+                    SELECT 1
                     FROM Reservas r
+                    INNER JOIN DetalleReservas dr ON r.id_reserva = dr.id_reserva
                     WHERE r.fecha_reserva = %s
-                    AND (r.hora_inicio < %s AND r.hora_fin > %s)
-                ) AND c.estado = 'disponible'
+                    AND dr.id_cancha = c.id_cancha
+                    AND (
+                        (r.hora_inicio < %s AND r.hora_fin > %s)  -- El nuevo horario empieza antes y termina después del existente
+                        OR
+                        (r.hora_inicio >= %s AND r.hora_fin <= %s)  -- El nuevo horario está completamente dentro de una reserva existente
+                        OR
+                        (r.hora_inicio < %s AND r.hora_fin > %s)  -- El nuevo horario empieza dentro y termina después
+                    )
+                )
             """
-            cursor.execute(sql, [fecha_reserva, hora_fin, hora_inicio])
+            cursor.execute(sql, [fecha_reserva, hora_fin, hora_inicio, hora_inicio, hora_fin, hora_inicio, hora_fin])
             canchas = cursor.fetchall()
-            return json.dumps({'status': True, 'data': canchas, 'message': 'Canchas disponibles'})
+            if canchas:
+                return json.dumps({'status': True, 'data': canchas, 'message': 'Canchas disponibles'})
+            else:
+                return json.dumps({'status': False, 'message': 'No hay canchas disponibles en el establecimiento solicitado'})
         except Exception as e:
             return json.dumps({'status': False, 'message': str(e)})
         finally:

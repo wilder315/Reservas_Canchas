@@ -24,7 +24,7 @@ app.register_blueprint(ws_pagos)
 
 # Registrar Blueprints
 app.register_blueprint(propietarios, url_prefix='/propietarios')
-app.register_blueprint(establecimientos, url_prefix='/establecimientos')
+app.register_blueprint(establecimientos)
 app.register_blueprint(canchas, url_prefix='/canchas')
 
 

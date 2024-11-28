@@ -27,7 +27,7 @@ def validar(fx):
             tokenDecode = jwt.decode(token, SecretKey.JWT_SECRET_KEY, algorithms=["HS256"])
 
             #Extraer el ID del usuario
-            usuarioID = tokenDecode['usuarioID'] #Pendiente de uso
+            usuarioID = tokenDecode['id_usuario'] #Pendiente de uso
 
             #Validar el estado del token almacenado en la base de datos
             estado_token_BD = validarEstadoTokenUsuario(usuarioID)

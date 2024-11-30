@@ -29,13 +29,14 @@ class Reserva:
                     WHERE r.fecha_reserva = %s
                     AND dr.id_cancha = c.id_cancha
                     AND (
-                        (r.hora_inicio < %s AND r.hora_fin > %s)  -- El nuevo horario empieza antes y termina después del existente
+                        (r.hora_inicio < %s AND r.hora_fin > %s)  
                         OR
-                        (r.hora_inicio >= %s AND r.hora_fin <= %s)  -- El nuevo horario está completamente dentro de una reserva existente
+                        (r.hora_inicio >= %s AND r.hora_fin <= %s)
                         OR
-                        (r.hora_inicio < %s AND r.hora_fin > %s)  -- El nuevo horario empieza dentro y termina después
+                        (r.hora_inicio < %s AND r.hora_fin > %s)
                     )
-                )
+                );
+
             """
             cursor.execute(sql, [fecha_reserva, hora_fin, hora_inicio, hora_inicio, hora_fin, hora_inicio, hora_fin])
             canchas = cursor.fetchall()
@@ -84,11 +85,19 @@ class Reserva:
         try:
             sql = """
                 SELECT r.id_reserva, r.fecha_reserva, r.hora_inicio, r.hora_fin, c.tipo_cancha, r.estado
-                FROM Reservas r
-                INNER JOIN DetalleReservas dr ON r.id_reserva = dr.id_reserva
-                INNER JOIN Canchas c ON dr.id_cancha = c.id_cancha
-                WHERE r.id_usuario = %s
-                ORDER BY r.fecha_reserva DESC
+                FROM Reservas AS r
+                INNER JOIN 
+                    DetalleReservas AS dr ON r.id_reserva = dr.id_reserva
+                INNER JOIN 
+                    Canchas AS c ON dr.id_cancha = c.id_cancha
+                INNER JOIN 
+                    Usuarios AS u ON r.id_usuario = u.id_usuario
+                WHERE 
+                    r.id_usuario = %s
+                    AND u.tipo_usuario = 'usuario'
+                    AND r.estado = 'confirmada'
+                ORDER BY 
+                    r.fecha_reserva DESC;
             """
             cursor.execute(sql, [id_usuario])
             reservas = cursor.fetchall()
@@ -98,7 +107,7 @@ class Reserva:
                 # Usamos CustomJsonEncoder para serializar correctamente los tipos de datos TIME y DATE
                 return json.dumps({'status': True, 'data': reservas, 'message': 'Historial obtenido'}, cls=CustomJsonEncoder)
             else:
-                return json.dumps({'status': False, 'message': 'El usuario no ha registrado ninguna reserva'})
+                return json.dumps({'status': False, 'message': 'El usuario no ha registrado ninguna reserva o esta pendiente de pago'})
 
         except Exception as e:
             return json.dumps({'status': False, 'message': f'Error: {str(e)}'})

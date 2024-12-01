@@ -84,14 +84,24 @@ class Reserva:
         cursor = con.cursor()
         try:
             sql = """
-                SELECT r.id_reserva, r.fecha_reserva, r.hora_inicio, r.hora_fin, c.tipo_cancha, r.estado
-                FROM Reservas AS r
+                SELECT 
+                    r.id_reserva, 
+                    r.fecha_reserva, 
+                    r.hora_inicio, 
+                    r.hora_fin, 
+                    c.tipo_cancha, 
+                    r.estado,
+                    e.nombre AS establecimiento  
+                FROM 
+                    Reservas AS r
                 INNER JOIN 
                     DetalleReservas AS dr ON r.id_reserva = dr.id_reserva
                 INNER JOIN 
                     Canchas AS c ON dr.id_cancha = c.id_cancha
                 INNER JOIN 
                     Usuarios AS u ON r.id_usuario = u.id_usuario
+                INNER JOIN 
+                    Establecimientos AS e ON c.id_establecimiento = e.id_establecimiento  -- JOIN con Establecimientos
                 WHERE 
                     r.id_usuario = %s
                     AND u.tipo_usuario = 'usuario'
